@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Card from "./components/Card";
+import Header from "./components/Header";
+import { weatherData } from "./api/weather.ts";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <div className="cards">
+        {weatherData.daily.time.map((time, index) => (
+          <Card
+            key={time.toISOString()}
+            day={time.getDate()}
+            month={time.toLocaleString("default", { month: "long" })}
+            sunrise={weatherData.daily.sunrise[index]}
+            sunset={weatherData.daily.sunset[index]}
+            tempMax={weatherData.daily.temperature_2m_max[index]}
+            tempMin={weatherData.daily.temperature_2m_min[index]}
+            rainSum={weatherData.daily.rain_sum[index]}
+            snowFall={weatherData.daily.snowfall_sum[index]}
+          />
+        ))}
+      </div>
     </div>
   );
 }
